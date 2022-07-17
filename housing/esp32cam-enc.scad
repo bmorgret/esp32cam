@@ -23,13 +23,20 @@
 // in a color that matches you soffits will help it blend in.
 // All 3 parts needed for the case print nicely together on a small 3d printer.
 //
+// Modified by Brian Morgret to include a camera number embosed on the back and a hole
+// for a PF2.0 connector that connects to a mini360 buck converter. Also modified the 
+// pan/tilt swivel to shorten the legs and lengthen the nubs to add extra friction to
+// pan. And, Lowered the wall thikness.
+
 $fn = 64;
+
+camnum = "1";
 
 pcbx = 40.1+0.2;  // pcb long dimension
 pcby = 27.2+0.2;  // pcb shorter dimension
 pcbz = 1.05+0.2;  // pcb thickness
 
-lensd = 7.1+0.5;  // lens dia
+lensd = 8+0.5;  // lens dia
 lensx = 29.5;
 lensy = pcby /2.0;
 lensz = 5.4;  // bottom of pcb to base of lens
@@ -37,7 +44,7 @@ lensh = 2.25+0.2; // height of lens + extra
 cambx = 8.65+0.4; // clearance needed for body of camera
 camby = 8.65+0.4;
 
-boxwall = 5.0;    // wall thickness
+boxwall = 3.2;    // wall thickness
 toph   = 10.0;    // thickness of top box
 
 pinh = 9.0;   // how much space needed for pins on rear of pcb
@@ -84,11 +91,11 @@ module bracket()
     union()
     {
       cube([pcbx+boxwall+clrn*2,boxwall,pinh]);
-      translate([-boxwall,0,0]) cube([boxwall,pcby+6,pinh]);
-      translate([pcbx+boxwall+clrn*2,0,0]) cube([boxwall,pcby+6,pinh]);
+      translate([-boxwall,0,0]) cube([boxwall,pcby,pinh]);
+      translate([pcbx+boxwall+clrn*2,0,0]) cube([boxwall,pcby,pinh]);
       // 2 pins to engage box
-      translate([0,pcby-pinh/2+6,pinh/2]) rotate([0,90,0])             cylinder(h=boxwall/3-clrn,d1=pinh-clrn,d2=pinh*0.75-clrn);
-      translate([pcbx+boxwall+clrn*2,pcby-pinh/2+6,pinh/2]) rotate([0,-90,0]) cylinder(h=boxwall/3-clrn,d1=pinh-clrn,d2=pinh*0.75-clrn);
+      translate([0,pcby-pinh/2,pinh/2]) rotate([0,90,0])             cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
+      translate([pcbx+boxwall+clrn*2,pcby-pinh/2,pinh/2]) rotate([0,-90,0]) cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
       // a reinforcing boss on mounting screw
       translate([(pcbx+boxwall+clrn)/2,-1.2,pinh/2]) rotate([-90,0,0])cylinder(d=pinh,h=boxwall*1.3);
 
@@ -127,9 +134,10 @@ module bottom()
       //tapered plug cutouts for mounting bracket
       translate([0,(pcby+boxwall)/2,pinh/2+2]) rotate([0,90,0])             cylinder(h=boxwall/3,d1=pinh,d2=pinh*0.75);
       translate([pcbx+boxwall,(pcby+boxwall)/2,pinh/2+2]) rotate([0,-90,0]) cylinder(h=boxwall/3,d1=pinh,d2=pinh*0.75);
-      // sign work by embossing inside of bottom of box (adds compute time, but saves some filament!
-      translate([3,20,boxwall/2-0.5]) rotate([0,0,0]) linear_extrude(0.5) text("ESP32-CAM",5);
-      translate([8,10,boxwall/2-0.5]) rotate([0,0,0]) linear_extrude(0.5) text("by VE7IT",5);
+      //cutout for power cable ph2.0
+      translate([boxwall,0,boxwall/2]) cube([6,boxwall,5]);
+      // emboss the cammera number on the back
+      translate([(pcbx+boxwall)/4-2,(pcby+boxwall)/2-5,0]) rotate([0,0,0]) linear_extrude(0.5) text(camnum,10);
     }
   }
   // add some posts in the corners to hold pcb in top of case when mated
