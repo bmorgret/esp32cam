@@ -44,7 +44,7 @@ lensh = 2.25+0.2; // height of lens + extra
 cambx = 8.65+0.4; // clearance needed for body of camera
 camby = 8.65+0.4;
 
-boxwall = 3.2;    // wall thickness
+boxwall = 5;    // wall thickness
 toph   = 10.0;    // thickness of top box
 
 pinh = 9.0;   // how much space needed for pins on rear of pcb
@@ -85,17 +85,17 @@ module boxjoint()
 module bracket()
 {
   hole=4.0;   // mounting hole size
-  clrn = 0.1; // clearance for pivot
+  clrn = .1; // clearance for pivot
   difference() 
   {
     union()
     {
       cube([pcbx+boxwall+clrn*2,boxwall,pinh]);
-      translate([-boxwall,0,0]) cube([boxwall,pcby,pinh]);
-      translate([pcbx+boxwall+clrn*2,0,0]) cube([boxwall,pcby,pinh]);
+      translate([-boxwall,0,0]) cube([boxwall,pcby+6,pinh]);
+      translate([pcbx+boxwall+clrn*2,0,0]) cube([boxwall,pcby+6,pinh]);
       // 2 pins to engage box
-      translate([0,pcby-pinh/2,pinh/2]) rotate([0,90,0])             cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
-      translate([pcbx+boxwall+clrn*2,pcby-pinh/2,pinh/2]) rotate([0,-90,0]) cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
+      translate([0,pcby-pinh/2+6,pinh/2]) rotate([0,90,0])             cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
+      translate([pcbx+boxwall+clrn*2,pcby-pinh/2+6,pinh/2]) rotate([0,-90,0]) cylinder(h=boxwall/2,d1=pinh-clrn,d2=pinh*0.75-clrn);
       // a reinforcing boss on mounting screw
       translate([(pcbx+boxwall+clrn)/2,-1.2,pinh/2]) rotate([-90,0,0])cylinder(d=pinh,h=boxwall*1.3);
 
@@ -137,7 +137,7 @@ module bottom()
       //cutout for power cable ph2.0
       translate([boxwall,0,boxwall/2]) cube([6,boxwall,5]);
       // emboss the cammera number on the back
-      translate([(pcbx+boxwall)/4-2,(pcby+boxwall)/2-5,0]) rotate([0,0,0]) linear_extrude(0.5) text(camnum,10);
+      translate([(pcbx+boxwall)/4+2,(pcby+boxwall)/2-4,0]) rotate([0,180,-90]) linear_extrude(0.5) text(camnum,10);
     }
   }
   // add some posts in the corners to hold pcb in top of case when mated
