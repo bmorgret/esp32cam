@@ -137,7 +137,7 @@ module bottom()
       //cutout for power cable ph2.0
       translate([boxwall,0,boxwall/2]) cube([6,boxwall,5]);
       // emboss the cammera number on the back
-      translate([(pcbx+boxwall)/4+2,(pcby+boxwall)/2-4,0]) rotate([0,180,-90]) linear_extrude(0.5) text(camnum,10);
+      translate([(pcbx+boxwall)/4+2,(pcby+boxwall)/2-4,.5]) rotate([0,180,-90]) linear_extrude(0.5) text(camnum,10);
     }
   }
   // add some posts in the corners to hold pcb in top of case when mated
